@@ -5,10 +5,7 @@ const db = config.get('mongoURI');
 
 
 mongoose.set('strictQuery', true);
-mongoose
-  .connect(
-    "mongodb+srv://allaa:1234@project309.crnphld.mongodb.net/?retryWrites=true&w=majority"
-  )
+mongoose.connect("mongodb+srv://allaa:1234@project309.crnphld.mongodb.net/test")
   .then((result) => {
     app.listen(port, () => {
       console.log(`Example app listening at http://localhost:${port}`);
