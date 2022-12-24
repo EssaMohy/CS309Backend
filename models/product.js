@@ -19,14 +19,14 @@ const productschema = new ProductSchema({
     type: String,
   },
   NumOfPieces: {
-    type: int,
+    type: Number,
   }
 });
 
 
 // Create a model based on that schema
-const Product = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model("Product", productschema);
 
 
-// export the model to app.js
+// export the model to server.js
 module.exports = Product; 
