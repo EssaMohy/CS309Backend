@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://allaa:1234@project309.crnphld.mongodb.net/test"
+    "mongoURI": "mongodb+srv://allaa:1234@project309.crnphld.mongodb.net/test",
+    "jwtSecret": "mysecrettoken"
 }
