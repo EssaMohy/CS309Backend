@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require("gravatar");
-const { check, validationResulst } = require("express-validator/check");
-const User = require("../../User");
-const bcrypt = require("bcryptjson");
+const { check, validationResulst } = require("express-validator");
+const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
 
 //@route  Post api/users
 //@desc   test route
 //@access Public
 router.post('/', [
 
-    check('name', 'Name is required').notEmpty(),
+    check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check("password", "Please enter a password with 6 or more characters").isLength({ min: 6 }),
 ], async (req, res) => {
@@ -20,7 +20,10 @@ router.post('/', [
     }
     const { name, email, passwword } = req.body;
     try {
+
         //see if user exists
+
+
         let user = await User.findOne({ email });
         if (user) {
             res.status(400).json({ errors: [{ msg: "User already exists" }] });

@@ -22,8 +22,9 @@ const Userschema = new UserSchema({
 });
 
 
-const User = mongoose.model("User", UserSchema);
+
 
 
 // export the model to app.js
-module.exports = User; 
+//Feh hena error
+module.exports= User = mongoose.model('User', UserSchema);
