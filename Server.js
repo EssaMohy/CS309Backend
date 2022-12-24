@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 app.use(express.static("public"));
 
 process.env.SUPPRESS_NO_CONFIG_WARNING = 'true';
@@ -13,8 +12,8 @@ app.get(`/`, (req, res) => res.send('API Running'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/products', require('./routes/api/products'));
 app.use('/api/profiles', require('./routes/api/profiles'));
-app.use('/api/pauth', require('./routes/api/auth'));
+app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/posts', require('./routes/api/posts'));
 
-//const PORT = process.env.PORT || 5000;
-app.listen(port, () => console.log(`app listening at http://localhost:${port}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`));
