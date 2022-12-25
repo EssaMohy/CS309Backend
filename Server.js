@@ -17,7 +17,7 @@ app.listen(PORT, () => console.log(`App is listening at:${PORT}`));
 //Define Routes
 app.use('/api/users', require('./routes/api/users'));
 //app.use('/api/products', require('./routes/api/products'));
-//app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/Cart', require('./routes/api/Cart'));
 app.use('/api/Order', require('./routes/api/Order'));
 

@@ -18,11 +18,11 @@ const userSchema = new UserSchema({
   },
   isAdmin: {
     type: Boolean,
-    defult: false,
+    default: false,
   },
-  avatar: {
-    type: String,
-  },
+  // avatar: {
+  //   type: String,
+  // },
 });
 
 // Create a model based on that schema

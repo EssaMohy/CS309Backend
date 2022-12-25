@@ -4,15 +4,14 @@ const router = express.Router();
 //@route  GET api/users
 //@desc   users route
 //@access Public
-router.get(`/`, (req, res) => res.send('users route'));
 
-router.post('/', 
-(req,res)=>{
-    const username = req.body.username;
-    console.log(username);
-    res.send('your user name is'+username);
-}
-)
+
+
+
+
+
+
+
 
 
 //lh:5000//api/users;
