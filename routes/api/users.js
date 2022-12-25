@@ -15,10 +15,7 @@ router.post('/',
 )
 
 
-
 //lh:5000//api/users;
-
-
 
 module.exports = router;
 
