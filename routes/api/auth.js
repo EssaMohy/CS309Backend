@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
-const { check, validationResulst } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
@@ -28,7 +28,7 @@ router.get(`/`, auth, async (req, res) => {
 //@access Public
 router.post('/', [
     check('email', 'Please include a valid email').isEmail(),
-    check('password',"Password is required").exists(),
+    check('password', "Password is required").exists(),
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -49,7 +49,7 @@ router.post('/', [
 
         const isMatch = await bcrypt.compare(password, user.password);
 
-        if(!isMatch){
+        if (!isMatch) {
             res.status(400).json({ errors: [{ msg: "Invalid Information" }] })
         }
 
