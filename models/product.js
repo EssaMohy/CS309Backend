@@ -3,24 +3,11 @@ const ProductSchema = mongoose.Schema;
 
 // define the ProductSchema (the structure of the product)
 const productschema = new ProductSchema({
-  name: {
-    type: String,
-    required: true
-  },
-  Price: {
-    type: String,
-    required: true,
-  },
-  img: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-  },
-  NumOfPieces: {
-    type: Number,
-  }
+  name: { type: String, required: true },
+  Price: { type: String, required: true },
+  img: { type: String, required: true },
+  desc: { type: String },
+  NumOfPieces: { type: Number }
 });
 
 
