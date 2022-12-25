@@ -16,10 +16,10 @@ const userSchema = new UserSchema({
     type: String,
     required: true,
   },
-  isAdmin:{
-     type:Boolean,
-     defult: false,
-    },
+  isAdmin: {
+    type: Boolean,
+    defult: false,
+  },
   avatar: {
     type: String,
   },
@@ -30,5 +30,5 @@ const User = mongoose.model("User", userSchema);
 
 
 // export the model to server.js
-module.exports = User; 
+module.exports = User;
 
