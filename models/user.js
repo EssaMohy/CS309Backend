@@ -16,6 +16,10 @@ const userSchema = new UserSchema({
     type: String,
     required: true,
   },
+  isAdmin:{
+     type:Boolean,
+     defult: false,
+    },
   avatar: {
     type: String,
   },
