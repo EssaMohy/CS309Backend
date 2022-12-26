@@ -1,49 +1,65 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
+const Product = require("../../models/product");
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 
+//add product
+router.post("/add", async (req, res) => {
+    const newProduct = new Product(req.body);
 
-module.exports = router;
+    try {
+        const savedProduct = await newProduct.save();
+        res.status(200).json(savedProduct);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
-
-
-
-
-
-
-
-// const express = require('express');
-// const router = express.Router();
-// const gravatar = require("gravatar");
-// const Product = require("../../models/product");
-// const { check, validationResulst } = require("express-validator");
-// //@route  Post api/Product
-// //@desc   products route
-// //@access Public
-// router.post(`/`, [
-//     check("name", "Name is required").not().isEmpty(),
-//     check("img", "Image is required").not().isEmpty(),
-//     check("price", "Price is required").not().isEmpty(),
-//     check("desc", "Description is required" ).not().isEmpty(),
-
-// ], async (req, res) => {
-//     const errors = validationResulst(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(400).json({ errors: errors.array() });
-//     }
-//     const { name, price } = req.body;
+//update product
+// router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //     try {
-//         let product = await Product.findOne({ name });
-//         if (product) {
-//             product.NumOfPieces += product.NumOfPieces;
-//         }
-//         product = new Product({ name, price, img, desc })
-//         await product.save();
-//         res.send('Product Inserted')
+//         const updatedProduct = await Product.findByIdAndUpdate(
+//             req.params.id,
+//             { $set: req.body },
+//             { new: true },
+//         );
+//         res.status(200).json(updatedProduct);
 //     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server error");
+//         res.status(500).json(err);
 //     }
-
 // });
 
-// module.exports = router;
+//get Product
+router.get("/find/:id", async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+//get all PRODUCTS
+router.get("/", async (req, res) => {
+    const qNew = req.query.new;
+    const qCategory = req.query.category;
+    try {
+        let products;
+
+        if (qNew) {
+            products = await Product.find().sort({ createdAt: -1 }).limit(1);
+        } else if (qCategory) {
+            products = await Product.find({
+                categories: {
+                    $in: [qCategory]
+                }
+            });
+        } else {
+            products = await Product.find();
+        }
+
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+module.exports = router;

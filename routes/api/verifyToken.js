@@ -7,9 +7,9 @@ const verifyToken = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(" ")[1];
 
-        jwt.verify(token,"More Secret", (err, user) => {
+        jwt.verify(token, "More Secret", (err, user) => {
 
-            if (err) {res.status(403).json("Token is not valid!")};
+            if (err) { res.status(403).json("Token is not valid!") };
             req.user = user;
             next();
         })
@@ -36,6 +36,6 @@ const verifyTokenAndِAdmin = (req, res, next) => {
     })
 }
 
-module.exports = { verifyToken, verifyTokenAndAuthorization,verifyTokenAndِAdmin };
+module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndِAdmin };
 
 
