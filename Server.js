@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 app.use(express.static("public"));
 const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
 
 app.use(express.json({ extended: false }));
 

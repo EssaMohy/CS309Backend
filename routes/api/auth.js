@@ -26,64 +26,48 @@ router.post("/register", async (req, res) => {
 );
 //LOGIN FUNCTION
 
-router.post("/login", async (req,res)=>{
-    try {
-        const user = await User.findOne({email: req.body.email});
-        if (!user)  {return res.status(401).json("Email is invalid")};
+router.post('/login', async (req, res) => {
+    try{
+        const user = await User.findOne(
+            {
+                email: req.body.email
+            }
+        );
 
-        const decryptedPassword = CryptoJS.AES.decrypt(user.password, "Secret other stuff").toString(CryptoJS.enc.Utf8);
-        if (decryptedPassword !== req.body.password) {
-            return res.status(401).json("Password Is Incorrect");
-        }
+        if(!user) {return res.status(401).json("Enter a valid Email")};
+
+        const hashedPassword = CryptoJS.AES.decrypt(
+            user.password,
+            "SECRET STUFF"
+        );
+
+
+        const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+        const inputPassword = req.body.password;
+        
+        if(originalPassword !== inputPassword)  
+            {return res.status(401).json("Password is incorrect")};
 
         const accessToken = jwt.sign({
-            id: user._id,
-            isAdmin: user.isAdmin,
 
-        }, "More Secret", {expiresIn:"20d"})
-        const{hasheddPassword, ...others} = user._doc;
+            id: user._id,
+            isAdmin: user.isAdmin, 
+        }, process.env.JWT_SEC, {expiresIn:"20d"});
+
+
+        const {password, ...others} = user._doc;
+
+        //If both correct
         return res.status(200).json({...others, accessToken});
 
-        
-    }
-    catch (err) {
+
+    } catch (err) {
         return res.status(500).json(err);
     }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} );
 
 module.exports = router;
-
 
 
 
