@@ -1,28 +1,36 @@
 const express = require('express');
 const User = require("../../models/user");
 const { findByIdAndUpdate } = require('../../models/user');
-const {verifyToken, verifyTokenAndAuthorization} = require("./verifyToken");
+const {verifyToken, verifyTokenAndAuthorization,verifyTokenAndAdmin} = require("./verifyToken");
 const router = express.Router();
+const dotenv = require("dotenv");
 //@route  GET api/users
 //@desc   users route
 //@access Public
 
 
 //UPDATE USER
-router.put("./:id", verifyTokenAndAuthorization , async (req,res)=>{
-    if(req.body.password){
-        req.body.password =  CryptoJS.AES.encrypt(req.body.password, 'Secret Stuff');
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+    if (req.body.password) {
+      req.body.password = CryptoJS.AES.encrypt(
+        req.body.password,
+        process.env.PASS_SEC
+      ).toString();
     }
-    try{
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, {
-            $set: req.body
-        }, {new:true});
-        res.status(200).json(updatedUser);
+  
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      res.status(500).json(err);
     }
-    catch(err){
-        res.status(500).json(err);
-    }
-});
+  });
 
 //lh:5000//api/users;
 
