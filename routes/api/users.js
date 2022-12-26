@@ -1,14 +1,17 @@
 const express = require('express');
 const { findByIdAndUpdate } = require('../../models/user');
-const { verifyToken } = require('./verifyToken');
+const {
+    verifyToken,
+    verifyTokenAndAuthorization,
+    verifyTokenAndAdmin,
+  } = require("./verifyToken");
 const router = express.Router();
-
 //@route  GET api/users
 //@desc   users route
 //@access Public
 
 //UPDATE
-router.put("./id", veiryTokenAndAuthorization, async (req,res)=>{
+router.put("./:id", verifyTokenAndAuthorization , async (req,res)=>{
     if(req.body.password){
         req.body.password =  CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC).toString();
     }
