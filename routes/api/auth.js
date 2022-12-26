@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../../models/user');
 const CryptoJS = require('crypto-js'); 
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 //REGISTER FUNCTION
 
@@ -13,7 +14,7 @@ router.post("/register", async (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
-        password: CryptoJS.AES.encrypt(req.body.password, "Secret stuff"),
+        password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC),
     });
     try {
         const savedUser = await newUser.save();
@@ -30,7 +31,7 @@ router.post('/login', async (req, res) => {
     try{
         const user = await User.findOne(
             {
-                email: req.body.email
+                email: req.body.email,
             }
         );
 
@@ -38,7 +39,7 @@ router.post('/login', async (req, res) => {
 
         const hashedPassword = CryptoJS.AES.decrypt(
             user.password,
-            "SECRET STUFF"
+            process.env.PASS_SEC
         );
 
 
