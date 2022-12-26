@@ -10,6 +10,7 @@ const dotenv = require("dotenv");
 
 
 //UPDATE USER
+//Checking if the user can make changes (auth or Admin)
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
     if (req.body.password) {
       req.body.password = CryptoJS.AES.encrypt(
@@ -17,7 +18,8 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
         process.env.PASS_SEC
       ).toString();
     }
-  
+
+    //Finding user by its ID
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -26,6 +28,7 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
         },
         { new: true }
       );
+      //Returning the updated info for user
       res.status(200).json(updatedUser);
     } catch (err) {
       res.status(500).json(err);

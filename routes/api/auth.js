@@ -35,6 +35,8 @@ router.post('/login', async (req, res) => {
             }
         );
 
+        
+        //Checking if the email is correct
         if(!user) {return res.status(401).json("Enter a valid Email")};
 
         const hashedPassword = CryptoJS.AES.decrypt(
@@ -46,7 +48,9 @@ router.post('/login', async (req, res) => {
         const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
         const inputPassword = req.body.password;
-        
+
+
+        //Checking if the password is correct
         if(originalPassword !== inputPassword)  
             {return res.status(401).json("Password is incorrect")};
 

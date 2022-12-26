@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+//creating token for each user
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
   if (authHeader) {
