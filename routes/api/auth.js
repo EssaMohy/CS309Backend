@@ -12,7 +12,7 @@ router.post("/register", async (req, res) => {
 
         name: req.body.name,
         email: req.body.email,
-        password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC),
+        password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC).toString()
     });
     try {
         const savedUser = await newUser.save();
@@ -24,37 +24,41 @@ router.post("/register", async (req, res) => {
 }
 );
 //LOGIN FUNCTION
-router.post("/login", async(req,res)=>{
 
-    try {
-        
-        const user = await User.findOne({email: req.body.email, });
-        //Check if the user exists
-        if(!user){
-            return res.status(401).json("Please Enter a valid Email");
-        }
+router.post('/login', async (req, res) => {
+    try{
+        const user = await User.findOne(
+            {
+                email: req.body.email
+            }
+        );
 
-        const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_SEC);
+        !user && res.status(401).json("Enter a valid Email");
 
-        const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+        const hashedPassword = CryptoJS.AES.decrypt(
+            user.password,
+            process.env.PASS_SEC
+        );
+
+
+        const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
         const inputPassword = req.body.password;
-        //Check if the password is correct
-        if(OriginalPassword != inputPassword){
-            return res.status(401).json("Password is incorrect");
-        }
-
+        
+        originalPassword !== inputPassword && 
+            res.status(401).json("Password is incorrect");
 
         const accessToken = jwt.sign({
 
             id: user._id,
             isAdmin: user.isAdmin, 
-        }, "Secret JWT", {expiresIn:"20d"});
+        }, process.env.JWT_SEC, {expiresIn:"20d"});
 
 
         const {password, ...others} = user._doc;
 
         //If both correct
-        return res.status(200).json({...others, accessToken});
+        res.status(200).json({...others, accessToken});
 
 
     } catch (err) {
