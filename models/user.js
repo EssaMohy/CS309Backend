@@ -3,7 +3,11 @@ const UserSchema = mongoose.Schema;
 
 // define the UserSchema (the structure of the User)
 const userSchema = new UserSchema({
-  name: {
+  first_name: {
+    type: String,
+    required: true
+  },
+  last_name: {
     type: String,
     required: true
   },
@@ -16,13 +20,17 @@ const userSchema = new UserSchema({
     type: String,
     required: true,
   },
+  adress: {
+    type: String,
+    defult: "Egypt",
+  },
   isAdmin: {
     type: Boolean,
     default: false,
   },
-  // avatar: {
-  //   type: String,
-  // },
+  avatar: {
+    type: String,
+  },
 });
 
 // Create a model based on that schema

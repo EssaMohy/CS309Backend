@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 app.use(express.static("public"));
-
+const bcrypt = require("bcryptjs");
 
 app.use(express.json({ extended: false }));
 
