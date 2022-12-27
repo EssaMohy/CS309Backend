@@ -23,3 +23,4 @@ app.use('/api/products', require('./routes/api/products'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/Cart', require('./routes/api/Cart'));
 app.use('/api/Order', require('./routes/api/Order'));
+app.use('/api/review', require('./routes/api/review'));

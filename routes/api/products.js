@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Product = require("../../models/product");
+const Review = require("../../models/Review");
 const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 
 //add product
@@ -14,6 +15,16 @@ router.post("/add", async (req, res) => {
     }
 });
 
+router.post("/addReview", async (req, res) => {
+    const newReview = new Review(req.body);
+
+    try {
+        const savedReview = await newReview.save();
+        res.status(200).json(savedReview);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 //update product
 // router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //     try {
