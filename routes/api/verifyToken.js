@@ -28,7 +28,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
     })
 }
 //Check if an admin
-const verifyTokenAndِAdmin = (req, res, next) => {
+const verifyTokenAndAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
         if (req.user.isAdmin) {
             next()
@@ -37,6 +37,6 @@ const verifyTokenAndِAdmin = (req, res, next) => {
         }
     })
 }
-module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndِAdmin };
+module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin };
 
 

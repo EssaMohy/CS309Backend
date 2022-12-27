@@ -1,10 +1,9 @@
 const router = require("express").Router();
 const Product = require("../../models/product");
-const Review = require("../../models/Review");
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
+const { verifyTokenAndAdmin } = require("./verifyToken");
 
 //add product
-router.post("/add", async (req, res) => {
+router.post("/add", verifyTokenAndAdmin, async (req, res) => {
     const newProduct = new Product(req.body);
 
     try {
@@ -15,29 +14,29 @@ router.post("/add", async (req, res) => {
     }
 });
 
-router.post("/addReview", async (req, res) => {
-    const newReview = new Review(req.body);
-
+//update product
+router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
     try {
-        const savedReview = await newReview.save();
-        res.status(200).json(savedReview);
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true }
+        );
+        res.status(200).json(updatedProduct);
     } catch (err) {
         res.status(500).json(err);
     }
 });
-//update product
-// router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
-//     try {
-//         const updatedProduct = await Product.findByIdAndUpdate(
-//             req.params.id,
-//             { $set: req.body },
-//             { new: true },
-//         );
-//         res.status(200).json(updatedProduct);
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// });
+
+//delete Product
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+    try {
+        await Product.findByIdAndDelete(req.params.id);
+        res.status(200).json("Product has been deleted...");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 //get Product
 router.get("/find/:id", async (req, res) => {

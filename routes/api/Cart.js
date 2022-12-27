@@ -1,4 +1,4 @@
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndِAdmin } = require("./verifyToken");
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 const Cart = require("../../models/Cart");
 const router = require("express").Router();
 
@@ -42,14 +42,14 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const cart = await Cart.findOne({ userId: req.params.userId });
-        res.status(200).json(carts);
+        res.status(200).json(cart);
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
 //get all CartS
-router.get("/", verifyTokenAndِAdmin, async (req, res) => {
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
     try {
         let carts = await Cart.find();
         res.status(200).json(carts);

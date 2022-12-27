@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const Review = require("../../models/Review");
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 
 //add review
 router.post("/", async (req, res) => {
