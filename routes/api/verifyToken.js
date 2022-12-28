@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(" ")[1];
 
-        jwt.verify(token, "More Secret", (err, user) => {
+        jwt.verify(token, process.env.JWT_SEC, (err, user) => {
 
             if (err) { res.status(403).json("Token is not valid!") };
             req.user = user;
@@ -23,7 +23,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
         if (req.user.id === req.params.id || req.user.isAdmin) {
             next()
         } else {
-            res.status(403).json("You are not an admin");
+            res.status(403).json("You can not make that change");
         }
     })
 }
