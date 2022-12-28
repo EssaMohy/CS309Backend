@@ -5,7 +5,6 @@ const { verifyTokenAndAuthorization } = require("./verifyToken");
 //@desc   users route
 //@access Public
 
-
 //UPDATE USER
 //Checking if the user can make changes
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
